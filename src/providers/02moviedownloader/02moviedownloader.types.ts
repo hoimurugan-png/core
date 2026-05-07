@@ -62,3 +62,8 @@ export interface Token {
     token: string;
     expiresIn: number;
 }
+
+export interface EncryptedResponse {
+    encrypted: true;
+    data: string;
+}
