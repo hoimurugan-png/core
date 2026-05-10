@@ -80,6 +80,36 @@ async function main() {
     await registry.discoverProviders(path.join(__dirname, './providers/'));
 
     await server.start();
+
+    const publicUrl =
+        process.env.PUBLIC_URL ??
+        `http://${process.env.HOST ?? 'localhost'}:${process.env.PORT ?? 3000}`;
+
+    const uiUrl = `https://ui.cinepro.cc/?omssurl=${encodeURIComponent(publicUrl)}`;
+
+    const title = '🚀 CinePro/ui is in public testing';
+    const contrib =
+        '🤝 We are looking for contributors to improve and develop!';
+    const repo = 'Contribute: https://github.com/cinepro-org/ui';
+    const tryIt = `🌐 Try it out: ${uiUrl}!`;
+
+    const lines = [title, '', repo, '', contrib, '', tryIt];
+
+    // compute box width based on longest line
+    const width = Math.max(...lines.map((l) => l.length)) + 2;
+
+    const borderTop = '╭' + '─'.repeat(width) + '╮';
+    const borderBottom = '╰' + '─'.repeat(width) + '╯';
+
+    const pad = (line: string) => '│ ' + line.padEnd(width - 2, ' ') + ' │';
+
+    console.log(`
+================== CINEPRO BETA ANNOUNCEMENT ==================
+
+${borderTop}
+${lines.map(pad).join('\n')}
+${borderBottom}
+`);
 }
 
 main().catch(() => {
