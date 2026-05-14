@@ -34,7 +34,8 @@ export class PeachifyProvider extends BaseProvider {
         `${this.API_URL}/holly`,
         `${this.API_URL}/air`,
         `${this.API_URL}/multi`,
-        `${this.API_URL}/net`
+        `${this.MOVIEBOX_URL}/net`,
+        `${this.MOVIEBOX_URL}/bmb`
     ];
 
     readonly capabilities: ProviderCapabilities = {
