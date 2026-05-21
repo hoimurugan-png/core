@@ -1,7 +1,7 @@
 /*
-* Credit where credit is due. Decrypt logic was taken from: https://github.com/vyla-entertainment/stream-api/blob/main/sources/cinezo.js
-* with permission: https://github.com/orgs/cinepro-org/discussions/1#discussioncomment-16937840
-*/
+ * Credit where credit is due. Decrypt logic was taken from: https://github.com/vyla-entertainment/stream-api/blob/main/sources/cinezo.js
+ * with permission: https://github.com/orgs/cinepro-org/discussions/1#discussioncomment-16937840
+ */
 const L1_KEY = 'U24wMHBEMGcjTDFfWDBSX000c3QzckszeSEyMDI2c2V4';
 const L1_SALT = 'eEs5IW1SMkBwTDUjblE4c2V4';
 const L3_KEY = 'U24wMHBEMGcjTDNfQUVTX1MzY3VyM0szeUAyMDI2JHNleA==';
@@ -77,7 +77,13 @@ async function decodeL3(data: string) {
     if (parts.length !== 3) throw new Error('L3 invalid');
     const [ivB64, saltB64, ctB64] = parts;
     const salt = atob(saltB64);
-    const keyBytes = await pbkdf2(Buffer.from(L3_KEY, 'base64').toString(), salt, 100000, 32, 'SHA-512');
+    const keyBytes = await pbkdf2(
+        Buffer.from(L3_KEY, 'base64').toString(),
+        salt,
+        100000,
+        32,
+        'SHA-512'
+    );
     const aesKey = await crypto.subtle.importKey(
         'raw',
         keyBytes,
@@ -101,7 +107,7 @@ async function decodeL4(data: string) {
     const payloadStr = bufferToStr(base64ToBuffer(payload));
     const hmacKey = await crypto.subtle.importKey(
         'raw',
-        strToBuffer(Buffer.from(L4_KEY, "base64").toString()),
+        strToBuffer(Buffer.from(L4_KEY, 'base64').toString()),
         { name: 'HMAC', hash: 'SHA-512' },
         false,
         ['sign']
@@ -116,7 +122,13 @@ async function decodeL4(data: string) {
 }
 
 export async function decryptPayload(payload: string) {
-    const xorKey = await pbkdf2(Buffer.from(L1_KEY, 'base64').toString(), Buffer.from(L1_SALT, 'base64').toString(), 50000, 32, 'SHA-256');
+    const xorKey = await pbkdf2(
+        Buffer.from(L1_KEY, 'base64').toString(),
+        Buffer.from(L1_SALT, 'base64').toString(),
+        50000,
+        32,
+        'SHA-256'
+    );
     const l4out = await decodeL4(payload);
     const l3out = await decodeL3(l4out);
     const l2out = binaryDecode(l3out);

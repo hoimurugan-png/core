@@ -18,10 +18,11 @@ export class VidApiProvider extends BaseProvider {
     readonly IFRAME_URL = 'https://brightpathsignals.com';
     readonly API_URL = 'https://streamdata.vaplayer.ru/api.php';
     readonly HEADERS = {
-        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Referer": `${this.IFRAME_URL}/`,
-        "Origin": this.IFRAME_URL,
-        "Accept":"*/*"
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        Referer: `${this.IFRAME_URL}/`,
+        Origin: this.IFRAME_URL,
+        Accept: '*/*'
     };
 
     readonly capabilities: ProviderCapabilities = {
@@ -72,8 +73,8 @@ export class VidApiProvider extends BaseProvider {
             const data = json.data;
             const diagnostics: ProviderResult['diagnostics'] = [];
 
-            const sources: Source[] = (data.stream_urls ?? [])
-                .map((streamUrl: string): Source => {
+            const sources: Source[] = (data.stream_urls ?? []).map(
+                (streamUrl: string): Source => {
                     const sourceType: SourceType =
                         streamUrl.includes('mp4') || streamUrl.includes('mkv')
                             ? 'mp4'
@@ -94,7 +95,8 @@ export class VidApiProvider extends BaseProvider {
                             name: this.name
                         }
                     };
-                });
+                }
+            );
             const subtitles: Subtitle[] = (json.default_subs ?? []).map(
                 (sub: {
                     lang: string;

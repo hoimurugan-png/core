@@ -71,21 +71,29 @@ export class TulnexProvider extends BaseProvider {
                 .map((r) => r.value);
 
             return {
-            sources: successful
-                .filter((r) => r !== null)
-                .map((r) => ({
-                    url: this.createProxyUrl(r.url, r.headers ? r.headers : {}),
-                    type: r.url.includes('mkv') ||  r.url.includes('mp4') ? "mp4" : "hls",
-                    audioTracks: [{
-                        label: "Original",
-                        language: "Original",
-                    }],
-                    quality: "Auto",
-                    provider: {
-                        name: this.name,
-                        id: this.id
-                    }
-                })),
+                sources: successful
+                    .filter((r) => r !== null)
+                    .map((r) => ({
+                        url: this.createProxyUrl(
+                            r.url,
+                            r.headers ? r.headers : {}
+                        ),
+                        type:
+                            r.url.includes('mkv') || r.url.includes('mp4')
+                                ? 'mp4'
+                                : 'hls',
+                        audioTracks: [
+                            {
+                                label: 'Original',
+                                language: 'Original'
+                            }
+                        ],
+                        quality: 'Auto',
+                        provider: {
+                            name: this.name,
+                            id: this.id
+                        }
+                    })),
                 subtitles: [],
                 diagnostics: []
             };
@@ -119,9 +127,9 @@ export class TulnexProvider extends BaseProvider {
         if (data.payload === undefined) {
             return null;
         }
-        const decrypted = await decryptPayload(data.payload)
+        const decrypted = await decryptPayload(data.payload);
         if (!decrypted) {
-            return null
+            return null;
         }
         return extractUrl(decrypted);
     }

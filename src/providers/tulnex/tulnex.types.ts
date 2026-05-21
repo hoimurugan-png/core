@@ -1,7 +1,7 @@
 export type TulnexApiResponse = {
-    v: string
-    payload: string
-}
+    v: string;
+    payload: string;
+};
 
 export interface ExtractedStream {
     url: string;
